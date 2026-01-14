@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Value My Hi-Fi | Professional Valuation</title>
+
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+        <div class="logo-container">
+            <svg width="60" height="60" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="45" fill="none" stroke="#d4af37" stroke-width="2" />
+                <circle cx="50" cy="50" r="35" fill="#1a1d21" stroke="#d4af37" stroke-width="1" />
+                <circle cx="50" cy="50" r="25" fill="none" stroke="#d4af37" stroke-width="0.5" opacity="0.5" />
+                <circle cx="50" cy="50" r="15" fill="none" stroke="#d4af37" stroke-width="0.5" opacity="0.5" />
+                <circle cx="50" cy="50" r="4" fill="#d4af37" />
+                <path d="M85 20 L70 45 L54 48" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" />
+            </svg>
+            <h1>VALUE MY HI-FI</h1>
+        </div>
+        <p class="subtitle">Market-driven valuations for high-fidelity audio equipment.</p>
+    </header>
+
+    <section class="card">
+        <h2><i class="fas fa-list"></i> Your Equipment</h2>
+
+        <div id="units">
+            <div class="unit">
+                <div class="unit-header">
+                    <strong>Unit 1</strong>
+                    <i class="fas fa-speaker"></i>
+                </div>
+
+                <div class="grid">
+                    <div>
+                        <label>Manufacturer</label>
+                        <input type="text" placeholder="e.g. KEF">
+                    </div>
+                    <div>
+                        <label>Model</label>
+                        <input type="text" placeholder="e.g. LS50 Meta">
+                    </div>
+                </div>
+
+                <div class="condition">
+                    <label>Condition</label>
+                    <select>
+                        <option value="10">10 – As new, boxed</option>
+                        <option value="9">9 – Excellent</option>
+                        <option value="8">8 – Very good</option>
+                        <option value="7">7 – Good, light wear</option>
+                        <option value="6">6 – Clearly used</option>
+                        <option value="5">5 – Functional, cosmetic issues</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" class="btn-secondary" onclick="addUnit()">
+            <i class="fas fa-plus"></i> Add Another Component
+        </button>
+
+        <div class="options">
+            <div class="grid">
+                <div>
+                    <label>Region</label>
+                    <select>
+                        <option>United Kingdom (£)</option>
+                        <option>United States ($)</option>
+                        <option>Europe (€)</option>
+                    </select>
+                </div>
+                <div class="checkbox-row">
+                    <input type="checkbox" id="desc">
+                    <label for="desc">Include sales description</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button class="btn-primary" onclick="generateValuation()">
+                Generate Valuation Report
+            </button>
+        </div>
+    </section>
+
+    <section id="results" class="card">
+        <h2><i class="fas fa-chart-line"></i> Market Valuation Report</h2>
+        <p class="helper">Based on recent auction data and private sales trends.</p>
+
+        <div id="resultsContent"></div>
+
+        <div class="total-box">
+            Estimated Total System Value
+            <span id="totalValue"></span>
+        </div>
+
+        <p class="helper">
+            These figures are indicative only. Market conditions, originality, and presentation can affect final sale price.
+        </p>
+    </section>
+
+    <section class="card info-card">
+        <h3>How we calculate value</h3>
+        <p>
+            Values are derived from recent second-hand sales across specialist retailers, auction results, and private listings,
+            adjusted for condition and market demand.
+        </p>
+    </section>
+
+    <footer>
+        Value My Hi-Fi is a reference tool designed to help owners understand current market value.
+        No personal data is collected or stored.
+    </footer>
+
+</div>
+
+<script>
+let count = 1;
+
+function addUnit() {
+    count++;
+    const units = document.getElementById("units");
+
+    const unit = document.createElement("div");
+    unit.className = "unit";
+
+    unit.innerHTML = `
+        <div class="unit-header">
+            <strong>Unit ${count}</strong>
+            <i class="fas fa-microchip"></i>
+        </div>
+
+        <div class="grid">
+            <div>
+                <label>Manufacturer</label>
+                <input type="text" placeholder="e.g. Naim">
+            </div>
+            <div>
+                <label>Model</label>
+                <input type="text" placeholder="e.g. Uniti Atom">
+            </div>
+        </div>
+
+        <div class="condition">
+            <label>Condition</label>
+            <select>
+                <option value="10">10 – As new, boxed</option>
+                <option value="9">9 – Excellent</option>
+                <option value="8">8 – Very good</option>
+                <option value="7">7 – Good, light wear</option>
+                <option value="6">6 – Clearly used</option>
+                <option value="5">5 – Functional, cosmetic issues</option>
+            </select>
+        </div>
+    `;
+
+    units.appendChild(unit);
+}
+
+async function generateValuation() {
+    const btn = document.querySelector(".btn-primary");
+    btn.disabled = true;
+    btn.innerText = "Contacting Market…";
+
+    const units = [];
+    document.querySelectorAll(".unit").forEach(unit => {
+        const inputs = unit.querySelectorAll("input, select");
+        const make = inputs[0].value.trim();
+        const model = inputs[1].value.trim();
+        const condition = parseInt(inputs[2].value, 10);
+
+        if (make && model) {
+            units.push({
+                category: "Component",
+                make,
+                model,
+                condition
+            });
+        }
+    });
+
+    if (!units.length) {
+        alert("Please enter at least one complete unit.");
+        btn.disabled = false;
+        btn.innerText = "Generate Valuation Report";
+        return;
+    }
+
+    try {
+        const res = await fetch("http://127.0.0.1:5000/value", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                country: "United Kingdom",
+                include_sales: document.getElementById("desc").checked,
+                units
+            })
+        });
+
+        const data = await res.json();
+        renderResults(data);
+
+    } catch (err) {
+        alert("Could not reach valuation service.");
+        console.error(err);
+    } finally {
+        btn.disabled = false;
+        btn.innerText = "Generate Valuation Report";
+    }
+}
+
+function renderResults(data) {
+    const results = document.getElementById("results");
+    const content = document.getElementById("resultsContent");
+    const total = document.getElementById("totalValue");
+
+    content.innerHTML = "";
+
+    data.units.forEach((unit, i) => {
+        const row = document.createElement("div");
+        row.className = "valuation-row";
+
+        row.innerHTML = `
+            <div>
+                <strong>Unit ${i + 1} – ${unit.unit_name}</strong>
+                <div class="helper">${unit.context}</div>
+            </div>
+            <div class="price-block">
+                <div class="price">${unit.estimated_value}</div>
+                <div class="confidence">
+                    Market confidence: ${unit.confidence_level}
+                </div>
+            </div>
+        `;
+
+        if (unit.sales_description && unit.sales_description.trim().length > 0) {
+            const wrapper = document.createElement("div");
+            wrapper.className = "sales-wrapper";
+
+            wrapper.innerHTML = `
+                <div class="sales-label">
+                    Ready-to-use seller description
+                    <span>You can copy and paste this into a private listing if you wish</span>
+                </div>
+                <textarea class="sales-box" readonly>${unit.sales_description}</textarea>
+            `;
+
+            row.appendChild(wrapper);
+
+        }
+
+        content.appendChild(row);
+    });
+
+    total.innerText = data.combined_value;
+    results.style.display = "block";
+    results.scrollIntoView({ behavior: "smooth" });
+}
+</script>
+
+</body>
+</html>
