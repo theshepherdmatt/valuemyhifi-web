@@ -29,6 +29,10 @@ body {
     padding: 2rem 1rem;
 }
 
+.grid > div {
+    min-width: 0;
+}
+
 header {
     text-align: center;
     border-bottom: 1px solid var(--border);
@@ -364,6 +368,7 @@ footer {
         padding: 1rem;
     }
 }
+
 
 
 
