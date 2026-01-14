@@ -111,13 +111,17 @@ label {
     display: block;
 }
 
-input, select {
+input,
+select {
+    display: block;
     width: 100%;
+    max-width: 100%;
     padding: 0.75rem;
     background: var(--bg);
     border: 1px solid var(--border);
     border-radius: 4px;
     color: #fff;
+    font-size: 0.95rem;
 }
 
 .condition {
@@ -368,6 +372,7 @@ footer {
         padding: 1rem;
     }
 }
+
 
 
 
