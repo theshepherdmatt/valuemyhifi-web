@@ -120,12 +120,21 @@ input, select {
     padding-top: 1.5rem;
 }
 
+/* Fix checkbox + label alignment */
 .checkbox-row {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding-top: 1.5rem;
 }
+
+.checkbox-row label {
+    display: inline;
+    margin: 0;
+    font-size: 0.8rem;
+    text-transform: none;
+    line-height: 1.2;
+}
+
 
 .actions {
     margin-top: 2rem;
@@ -343,5 +352,6 @@ footer {
         padding: 1rem;
     }
 }
+
 
 
